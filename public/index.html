@@ -1,9 +1,19 @@
 <html ng-app="goshaba">
   <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-dragula/1.2.7/dragula.min.css">
+    <link rel="stylesheet" href="main.css">
   </head>
   <body ng-controller="myApp">
-    <div>hello world</div>
-    <div ng-repeat="lol in data">{{lol}}</div>
+    <div 
+      class="questions" ng-repeat="question in questionnaire.parts[0].questions" 
+      style="margin-bottom: 20px;">
+      <div class="question">{{question.description}}</div>
+      <div dragula="'answers-bag'" dragula-model="question.answers">
+        <div class="answers" ng-repeat="answer in question.answers">
+          <div class="answer">{{answer.description}}</div>
+        </div>
+      </div>
+    </div>
   </body>
   <script>
     window.fbAsyncInit = function() {
@@ -51,15 +61,62 @@
      }(document, 'script', 'facebook-jssdk'));
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.7/angular.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-dragula/1.2.7/angular-dragula.min.js"></script>
   <script>
-    angular.module('goshaba', [])
+    angular.module('goshaba', [angularDragula(angular)])
       .controller('myApp', function ($scope) {
-        $scope.data = [
-          '1',
-          '2',
-          '3',
-          'soleil'
-        ];
+
+        $scope.questionnaire = {
+          parts: [
+            {
+              name: "Quel type d'ingénieur êtes-vous ?",
+              questions: [
+                {
+                  description: "On te demande de planifier et lancer un projet. Mais le cahier des charges n’est pas clair.",
+                  answers: [
+                    {
+                      description: "Tu te lances directement dans le développement d’une première maquette pour que le client puisse voir quelque chose le plus vite possible"
+                    },
+                    {
+                      description: "Tu demandes une seconde réunion avec le client pour préciser les besoins"
+                    },
+                    {
+                      description: "Tu fais une première planification, en précisant que le cahier des charges n’est pas clair"
+                    }
+                  ]
+                },
+                {
+                  description: "Après estimation, tu t'aperçois que tu vas dépasser les délais, tu en parles à ton chef de projet.",
+                  answers: [
+                    {
+                      description: "Tu lui demandes d’ajuster les fonctionnalités pour tenir les délais"
+                    },
+                    {
+                      description: "Tu tentes de renégocier un délai supplémentaire"
+                    },
+                    {
+                      description: "Tu fais des heures supplémentaires pour finir dans les temps"
+                    }
+                  ]
+                },
+                {
+                  description: "Que préfères-tu ?",
+                  answers: [
+                    {
+                      description: "Développer en prototype, car on a quelque chose de fonctionnel rapidement"
+                    },
+                    {
+                      description: "Avoir un bon cahier des charges, car cela permet de bien savoir où l'on va"
+                    },
+                    {
+                      description: "Avoir un challenge technique"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       })
   </script>
 </html>
