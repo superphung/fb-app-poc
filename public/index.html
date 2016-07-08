@@ -17,10 +17,13 @@
     
       function onLogin(response) {
         if (response.status == 'connected') {
-          FB.api('/me?fields=first_name,likes', function(data) {
+          FB.api('/me?fields=first_name', function(data) {
             console.log('data', data);
             var welcomeBlock = document.getElementById('fb-welcome');
             welcomeBlock.innerHTML = 'Hello, ' + data.first_name + '!';
+            FB.api('/me/likes?fields=name,category', function (likes) {
+              console.log(likes);
+            });
           });
         }
       }
